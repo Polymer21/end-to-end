@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
+  state = {
+    message: "NO MESSAGE RECEIVED"
+  }
+
+  getData = async () => {
+    const url = "http://localhost:3001"
+    const response = await fetch(url)
+    const data = await response.json()
+
+    return data
+  }
+
+  async componentDidMount () {
+    const data= await this.getData()
+
+    this.setState({ message: data })
+  }
+  render() {  
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1>{this.state.message}</h1>
       </div>
     );
   }
